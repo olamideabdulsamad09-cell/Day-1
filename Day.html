@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Tip Calculator</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #071526, #075e63);
+}
+
+.container {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 15px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  background: #d1fae5;
+}
+
+h1 {
+  text-align: center;
+  color: #102a43;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  color: #334155;
+  margin-bottom: 9px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #dbe3eb;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 22px;
+}
+
+input:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+.tip-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin-bottom: 22px;
+}
+
+.tip-buttons button {
+  padding: 13px 4px;
+  border: 1px solid #dbe3eb;
+  border-radius: 10px;
+  background: #f8fafc;
+  font-size: 15px;
+  font-weight: bold;
+  color: #334155;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tip-buttons button:hover,
+.tip-buttons button.active {
+  background: #0d9488;
+  border-color: #0d9488;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.results {
+  background: #effcf7;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #d1fae5;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: #475569;
+  font-size: 14px;
+}
+
+.result-row strong {
+  color: #102a43;
+  font-size: 16px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.result-row:last-child {
+  margin-bottom: 0;
+}
+
+.per-person {
+  border-top: 1px solid #cbded5;
+  padding-top: 18px;
+}
+
+.per-person strong {
+  color: #059669;
+  font-size: 24px;
+}
+
+#reset {
+  width: 100%;
+  padding: 15px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 11px;
+  background: #102a43;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#reset:hover {
+  background: #0d9488;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 20px;
+  }
+
+  .tip-buttons {
+    gap: 5px;
+  }
+
+  .tip-buttons button {
+    font-size: 13px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+  <div class="icon">🧮</div>
+
+  <h1>Tip Calculator</h1>
+  <p class="subtitle">Split bills easily with friends</p>
+
+  <label for="bill">Bill Amount (₦)</label>
+  <input type="number" id="bill"
+         placeholder="Enter your bill"
+         min="0" step="0.01">
+
+  <label>Select Tip Percentage</label>
+
+  <div class="tip-buttons">
+    <button type="button" data-tip="5">5%</button>
+    <button type="button" data-tip="10">10%</button>
+    <button type="button" data-tip="15" class="active">15%</button>
+    <button type="button" data-tip="20">20%</button>
+  </div>
+
+  <label for="customTip">Custom Tip (%)</label>
+  <input type="number" id="customTip"
+         value="15" min="0" step="1">
+
+  <label for="people">Number of People</label>
+  <input type="number" id="people"
+         value="1" min="1" step="1">
+
+  <section class="results" aria-live="polite">
+
+    <div class="result-row">
+      <span>Tip Amount</span>
+      <strong id="tipAmount">₦0.00</strong>
+    </div>
+
+    <div class="result-row">
+      <span>Total Bill</span>
+      <strong id="totalBill">₦0.00</strong>
+    </div>
+
+    <div class="result-row per-person">
+      <span>Each Person Pays</span>
+      <strong id="perPerson">₦0.00</strong>
+    </div>
+
+  </section>
+
+  <button type="button" id="reset">Reset Calculator</button>
+
+  <p class="footer">Simple • Fast • Accurate</p>
+
+</main>
+
+<script>
+const billInput = document.getElementById("bill");
+const tipInput = document.getElementById("customTip");
+const peopleInput = document.getElementById("people");
+
+const tipAmount = document.getElementById("tipAmount");
+const totalBill = document.getElementById("totalBill");
+const perPerson = document.getElementById("perPerson");
+
+const buttons = document.querySelectorAll("[data-tip]");
+const resetButton = document.getElementById("reset");
+
+function formatMoney(amount) {
+  return "₦" + amount.toLocaleString("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function calculateTip() {
+  const bill = Math.max(0, Number(billInput.value) || 0);
+  const percentage = Math.max(0, Number(tipInput.value) || 0);
+  const people = Math.max(
+    1,
+    Math.floor(Number(peopleInput.value) || 1)
+  );
+
+  const tip = bill * percentage / 100;
+  const total = bill + tip;
+  const each = total / people;
+
+  tipAmount.textContent = formatMoney(tip);
+  totalBill.textContent = formatMoney(total);
+  perPerson.textContent = formatMoney(each);
+}
+
+buttons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    tipInput.value = button.dataset.tip;
+
+    buttons.forEach(function(btn) {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    calculateTip();
+  });
+});
+
+tipInput.addEventListener("input", function() {
+  buttons.forEach(function(button) {
+    button.classList.toggle(
+      "active",
+      Number(button.dataset.tip) === Number(tipInput.value)
+    );
+  });
+
+  calculateTip();
+});
+
+billInput.addEventListener("input", calculateTip);
+peopleInput.addEventListener("input", calculateTip);
+
+resetButton.addEventListener("click", function() {
+  billInput.value = "";
+  tipInput.value = "15";
+  peopleInput.value = "1";
+
+  buttons.forEach(function(button) {
+    button.classList.toggle("active", button.dataset.tip === "15");
+  });
+
+  calculateTip();
+});
+
+calculateTip();
+</script>
+
+</body>
+</html>
